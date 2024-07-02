@@ -45,6 +45,12 @@ Copyright (c) .NET Foundation. All rights reserved.
     <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == ''">$(TargetPlatformVersion)</TargetPlatformMinVersion>
   </PropertyGroup>
 
+  <!-- Add the right Windows SDK projections depending on whether 'UseUwp' is also set in the project -->
+  <ItemGroup Condition=" '$(IncludeWindowsSDKRefFrameworkReferences)' == 'true' ">
+    <FrameworkReference Condition=" '$(UseUwp)' == 'true' " Include="Microsoft.Windows.SDK.NET.Ref.Full" IsImplicitlyDefined="true" Pack="false" PrivateAssets="All" />
+    <FrameworkReference Condition=" '$(UseUwp)' != 'true' " Include="Microsoft.Windows.SDK.NET.Ref.Windows" IsImplicitlyDefined="true" Pack="false" PrivateAssets="All" />
+  </ItemGroup>
+
   <Target Name="_ErrorOnUnresolvedWindowsSDKAssemblyConflict"
           AfterTargets="ResolveAssemblyReferences"
           Condition=" '@(ResolveAssemblyReferenceUnresolvedAssemblyConflicts)' != '' ">
